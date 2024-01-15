@@ -46,10 +46,11 @@ while True:
                         invalid = False
                     else:
                         details_save = {}
+                        invalid = False
                 except IndexError:
                     print("вы неправильно ввели данные, обратите внимание на необходимый формат введенных данных, или нажмите enter, чтобы продолжить без их ввода")
 
-            data[name_add][group_add] = (group_health_add, details_save)
+            data[group_add][name_add] = (group_health_add, details_save)
             print(f'ученик {name_add} был добавлен/добавлена в базу данных')
 
             if not continue_work():
@@ -58,7 +59,7 @@ while True:
         case 'п':
             group_get = set_student_group()
             
-            if group_get:
+            if data[group_get]:
                 print('список учащихся группы:')
                 for num, i in enumerate(data[group_get].keys()):
                     print(f'{num + 1} - {i}')
@@ -80,14 +81,17 @@ while True:
         case 'у':
             group_get = set_student_group()
 
-            print('список учащихся группы:')
-            for num, i in enumerate(data[group_get].keys()):
-                print(f'{num + 1} - {i}')
+            if data[group_get]:
+                print('список учащихся группы:')
+                for num, i in enumerate(data[group_get].keys()):
+                    print(f'{num + 1} - {i}')
 
-            name_get = set_student_name()
-            
-            print(f'ученик {list(data[group_get].keys())[int(name_get) - 1]} был удален/удаленна из базы данных')
-            del data[group_get][list(data[group_get].keys())[int(name_get) - 1]]
+                name_get = set_student_name()
+                
+                print(f'ученик {list(data[group_get].keys())[int(name_get) - 1]} был удален/удаленна из базы данных')
+                del data[group_get][list(data[group_get].keys())[int(name_get) - 1]]
+            else:
+                print('в этой группе нет учеников')
 
             if not continue_work():
                 break
